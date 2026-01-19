@@ -1,0 +1,49 @@
+<project name="proj" width="1920" height="1080">
+
+    <assets>
+        <scenes>
+            <scene name="mainScene">
+                <file name="models/sphere.obj" />
+            </scene>
+        </scenes>
+
+        <viewports>
+            <viewport name="mainViewport">
+				<CLEAR_COLOR r="0.0" g="0.0" b="0.0" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="mainCam">
+                <viewport name="mainViewport" />
+                <POSITION x="0" y="0" z="10" />
+                <VIEW x="0" y="0" z="-1" />
+                <UP x="0" y="1" z="0" />
+            </camera>
+        </cameras>
+
+        <materialLibs>
+            <materialLib filename="materials.mlib" />
+        </materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="basic" class="default">
+            <pass name="mainPass">
+                <scenes>
+                    <scene name="mainScene" />
+                </scenes>
+
+                <camera name="mainCam" />
+                <!-- <viewport name="mainViewport" /> -->
+
+                <materialMaps>
+                    <map fromMaterial="*" 
+                        toLibrary="matLib"
+                        toMaterial="simpleMaterial" />
+                </materialMaps>
+            </pass>
+        </pipeline>
+    </pipelines>
+
+</project>

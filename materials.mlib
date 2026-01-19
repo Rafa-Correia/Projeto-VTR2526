@@ -1,0 +1,28 @@
+<materialLib name="matLib">
+    <textures>
+        <texture name="wood" filename="textures/wood.jpg" />
+    </textures>
+
+    <shaders>
+        <shader name="simpleShader"
+                vs="shaders/test.vert"
+                ps="shaders/test.frag" />
+    </shaders>
+
+    <materials>
+        <material name="simpleMaterial">
+            <shader name="simpleShader">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="wood" UNIT="0" />
+            </textures>
+        </material>
+    </materials>
+</materialLib>
