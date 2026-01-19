@@ -17,6 +17,23 @@
                             type="RENDERER"
                             context="CURRENT"
                             component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="V"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="lPos"
+                            type="LIGHT"
+                            context="CURRENT"
+                            id="0"
+                            component="POSITION" />
                 </values>
             </shader>
 

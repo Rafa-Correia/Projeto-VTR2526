@@ -22,6 +22,12 @@
             </camera>
         </cameras>
 
+        <lights>
+            <light name="simple_point">
+                <POSITION x="0" y="5" z="0" />
+            </light>
+        </lights>
+
         <materialLibs>
             <materialLib filename="materials.mlib" />
         </materialLibs>
@@ -36,6 +42,10 @@
 
                 <camera name="mainCam" />
                 <!-- <viewport name="mainViewport" /> -->
+
+                <lights>
+                    <light name="simple_point" />
+                </lights>
 
                 <materialMaps>
                     <map fromMaterial="*" 
