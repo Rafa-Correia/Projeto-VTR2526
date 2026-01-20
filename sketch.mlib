@@ -1,0 +1,194 @@
+<materialLib name="matLib">
+    <textures>
+        <texture name="wood" filename="textures/wood.jpg" />
+        <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
+        <texture name="Cake" filename="textures/cake_basecolor.png" mipmap="true" />
+    </textures>
+
+    <shaders>
+        <shader name="simpleShader"
+                vs="shaders/test.vert"
+                ps="shaders/test.frag" />
+        <shader name="celShader"
+                vs="shaders/test.vert"
+                ps="shaders/cel.frag" />
+        <shader name="sketchShader"
+                vs="shaders/sketch.vert"
+                ps="shaders/sketch.frag" />
+    </shaders>
+
+    <materials>
+        <material name="simpleMaterial">
+            <shader name="simpleShader">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="V"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="lPos"
+                            type="LIGHT"
+                            context="CURRENT"
+                            id="0"
+                            component="POSITION" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="wood" UNIT="0" />
+            </textures>
+        </material>
+
+        <material name="celMaterial">
+            <shader name="celShader">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="V"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="lPos"
+                            type="LIGHT"
+                            context="CURRENT"
+                            id="0"
+                            component="POSITION" />
+                    <valueof uniform="tex"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="mimikyu" UNIT="0" />
+            </textures>
+        </material>
+
+        <material name="sketchMaterial">
+            <shader name="sketchShader">
+
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+
+                    <valueof uniform="V"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW" />
+
+                    <valueof uniform="M"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="MODEL" />
+
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+
+                    <valueof uniform="lPos"
+                            type="LIGHT"
+                            context="CURRENT"
+                            id="0"
+                            component="POSITION" />
+
+                    <valueof uniform="tex"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+
+                    <valueof uniform="uLineScale"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="LINE_SCALE" />
+
+                    <valueof uniform="uLineWidth"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="LINE_WIDTH" />
+
+                    <valueof uniform="uJitter"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="JITTER" />
+
+                    <valueof uniform="uContrast"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="CONTRAST" />
+
+                    <valueof uniform="uPaperMix"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PAPER_MIX" />
+
+                    <valueof uniform="uPaperGrain"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PAPER_GRAIN" />
+
+                    <valueof uniform="uT1" 
+                            type="RENDERER" 
+                            context="CURRENT" 
+                            component="HATCH_T1" />
+
+                    <valueof uniform="uT2" 
+                            type="RENDERER" 
+                            context="CURRENT" 
+                            component="HATCH_T2" />
+
+                    <valueof uniform="uT3" 
+                            type="RENDERER" 
+                            context="CURRENT" 
+                            component="HATCH_T3" />
+
+                    <valueof uniform="uT4" 
+                            type="RENDERER" 
+                            context="CURRENT" 
+                            component="HATCH_T4" />
+                            
+                    <valueof uniform="uTW" 
+                            type="RENDERER" 
+                            context="CURRENT" 
+                            component="HATCH_TW" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="mimikyu" UNIT="0" />
+            </textures>
+        </material>
+
+    </materials>
+</materialLib>
