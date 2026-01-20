@@ -1,0 +1,102 @@
+<project name="proj" width="1920" height="1080">
+    <assets>
+        <attributes>
+            <attribute name="threshold" type="RENDERER" data="FLOAT" value="1" />
+            <attribute name="diffuseCoef" type="RENDERER" data="FLOAT" value="1" />
+            <attribute name="lightCoef" type="RENDERER" data="FLOAT" value="0.5" />
+        </attributes>
+
+        <scenes>
+            <scene name="mimikyu">
+                <file name="models/mimikyu.obj" />
+            </scene>
+            <!-- <scene name="sphere">
+                <file name="models/sphere.obj" />
+            </scene> -->
+        </scenes>
+
+        <viewports>
+            <viewport name="mainViewport">
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="mainCam">
+                <viewport name="mainViewport" />
+                <POSITION x="5" y="0" z="0" />
+                <VIEW x="-1" y="0" z="0" />
+                <UP x="0" y="1" z="0" />
+            </camera>
+        </cameras>
+
+        <lights>
+            <light name="sun">
+                <DIRECTION x="-1" y="-1" z="-1" />
+            </light>
+        </lights>
+
+        <materialLibs>
+            <materialLib filename="deffered.mlib" />
+        </materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="main" class="default">
+            <pass name="mainPass" class="default">
+                <scenes>
+                    <scene name="mimikyu" />
+                </scenes>
+
+                <camera name="mainCam" />
+                <viewport name="mainViewport" />
+
+                <renderTarget name="gbuffer" fromLibrary="matLib" />
+
+                <lights>
+                    <light name="sun">
+                        <COLOR r="1.0" g="0.7" b="0.3" a="1.0" />
+                    </light>
+                </lights>
+
+                <materialMaps>
+                    <map fromMaterial="*" 
+                        toLibrary="matLib"
+                        toMaterial="gbuffer" />
+                </materialMaps>
+            </pass>
+
+            <pass name="celDeferred" class="quad">
+                <COLOR_CLEAR value="false" />
+                <material name="celDeferred" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+            </pass>
+        </pipeline>
+    </pipelines>
+
+    <interface>
+        <window label="settings">
+            <var label="Cel Threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="threshold"
+                def="min=0 max=1" />
+            <var label="Diffuse Coeficient"
+                type="RENDERER"
+                context="CURRENT"
+                component="diffuseCoef"
+                def="min=0 max=1" />
+            <var label="Light Coeficient"
+                type="RENDERER"
+                context="CURRENT"
+                component="lightCoef"
+                def="min=0 max=1" />
+            <var label="Light Color"
+                type="LIGHT"
+                context="sun"
+                component="COLOR"
+                mode="COLOR" />
+        </window>
+    </interface>
+</project>

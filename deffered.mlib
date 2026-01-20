@@ -1,0 +1,115 @@
+<materialLib name="matLib">
+    <textures>
+        <texture name="wood" filename="textures/wood.jpg" />
+        <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
+    </textures>
+
+    <shaders>
+        <shader name="simpleShader"
+                vs="shaders/test.vert"
+                ps="shaders/test.frag" />
+        <shader name="celShader"
+                vs="shaders/test.vert"
+                ps="shaders/cel.frag" />
+
+        <shader name="gbuffer"
+                vs="shaders/gbuffer.vert"
+                ps="shaders/gbuffer.frag" />
+
+        <shader name="celDeferred"
+                vs="shaders/celDeferred.vert"
+                ps="shaders/celDeferred.frag" />
+    </shaders>
+
+    <renderTargets>
+        <renderTarget name="gbuffer" >
+                <SIZE width="1920" height="1080" />
+                <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+                <colors>
+                        <color name="pos" internalFormat="RGBA32F" />
+                        <color name="normal" internalFormat="RGBA" />
+                        <color name="texCoord" internalFormat="RG32F" /> 
+                </colors>
+        </renderTarget>
+    </renderTargets>
+
+    <materials>
+        <material name="gbuffer">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="celDeferred">
+            <shader name="celDeferred" >
+                <values>
+                    <valueof uniform="V"
+		                    type="CAMERA" CONTEXT="mainCam"
+						    component="VIEW_MATRIX" />
+                    <valueof uniform="lDir"
+                            type="LIGHT"
+                            context="sun"
+                            id="0"
+                            component="DIRECTION" />
+                    <valueof uniform="albedo"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                    <valueof uniform="pos"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
+                    <valueof uniform="texCoord"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="3"
+                            component="UNIT" />
+                    <valueof uniform="threshold"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="threshold" />
+                    <valueof uniform="diffuseCoef"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="diffuseCoef" />
+                    <valueof uniform="lightCoef"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="lightCoef" />
+                    <valueof uniform="lightColor"
+                            type="LIGHT"
+                            context="sun"
+                            id="0"
+                            component="COLOR" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="mimikyu" UNIT="0" />
+                <texture name="pos" UNIT="1" />
+                <texture name="normal" UNIT="2" />
+                <texture name="texCoord" UNIT="3" />
+            </textures>
+        </material>
+    </materials>
+</materialLib>
