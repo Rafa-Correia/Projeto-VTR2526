@@ -3,6 +3,9 @@
     <assets>
         <scenes>
             <scene name="mainScene">
+                <file name="models/mimikyu.obj" />
+            </scene>
+            <scene name="sphere">
                 <file name="models/sphere.obj" />
             </scene>
         </scenes>
@@ -24,7 +27,7 @@
 
         <lights>
             <light name="simple_point">
-                <POSITION x="0" y="5" z="0" />
+                <POSITION x="5" y="5" z="0" />
             </light>
         </lights>
 
@@ -50,7 +53,7 @@
                 <materialMaps>
                     <map fromMaterial="*" 
                         toLibrary="matLib"
-                        toMaterial="simpleMaterial" />
+                        toMaterial="celMaterial" />
                 </materialMaps>
             </pass>
         </pipeline>

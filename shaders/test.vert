@@ -11,10 +11,13 @@ uniform vec4 lPos;
 
 in vec4 position;
 in vec3 normal;
+in vec2 texCoord0;
 
 out vec3 aNormal;
 out vec3 aLDir;
 //out vec3 aEye;
+
+out vec2 texCoord;
 
 void main() {
     vec4 aPos = VM * position;
@@ -26,4 +29,6 @@ void main() {
     aLDir = normalize((a_lPos - aPos).xyz);
     //aLDir = normalize(vec3(aPos - a_lPos));
     //aEye = normalize(vec3(-aPos));
+
+    texCoord = texCoord0;
 }
