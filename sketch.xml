@@ -47,7 +47,7 @@
         </lights>
 
         <materialLibs>
-            <materialLib filename="materials.mlib" />
+            <materialLib filename="sketch.mlib" />
         </materialLibs>
     </assets>
 
