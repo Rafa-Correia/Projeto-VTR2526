@@ -4,8 +4,9 @@
             <attribute name="threshold" type="RENDERER" data="FLOAT" value="0.5" />
             <attribute name="diffuseCoef" type="RENDERER" data="FLOAT" value="1" />
             <attribute name="lightCoef" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute name="lightColor" type="RENDERER" data="VEC4" r="1.0" g="0.7" b="0.3" a="1.0" />
             <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
-            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.1" />
+            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
             <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
             <attribute name="edgeColor" type="RENDERER" data="VEC4" r="0.0" g="0.0" b="0.0" a="0.0" />
         </attributes>
@@ -71,8 +72,16 @@
             </pass>
 
             <pass name="celDeferred" class="quad">
-                <COLOR_CLEAR value="false" />
+                <!-- <COLOR_CLEAR value="false" /> -->
                 <material name="celDeferred" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="imageTex" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="edgeDeferred" class="quad">
+                <COLOR_CLEAR value="false" />
+                <material name="edgeDeferred" fromLibrary="matLib" />
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
             </pass>
@@ -97,9 +106,9 @@
                 component="lightCoef"
                 def="min=0 max=1" />
             <var label="Light Color"
-                type="LIGHT"
-                context="sun"
-                component="COLOR"
+                type="RENDERER"
+                context="CURRENT"
+                component="lightColor"
                 mode="COLOR" />
 
             <var label="Depth Edge threshold"

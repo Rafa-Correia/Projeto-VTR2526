@@ -22,19 +22,30 @@
         <shader name="celEdge"
                 vs="shaders/celEdge.vert"
                 ps="shaders/celEdge.frag" />
+        <shader name="edgeDeferred"
+                vs="shaders/edgeDeferred.vert"
+                ps="shaders/edgeDeferred.frag" />
     </shaders>
 
     <renderTargets>
         <renderTarget name="gbuffer" >
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="pos" internalFormat="RGBA32F" />
+                <color name="normal" internalFormat="RGBA" />
+                <color name="texCoord" internalFormat="RG32F" /> 
+            </colors>
+
+            <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
+        </renderTarget>
+
+        <renderTarget name="imageTex">
                 <SIZE width="1920" height="1080" />
                 <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
                 <colors>
-                        <color name="pos" internalFormat="RGBA32F" />
-                        <color name="normal" internalFormat="RGBA" />
-                        <color name="texCoord" internalFormat="RG32F" /> 
+                    <color name="base_img_out" internalFormat="RGBA" />
                 </colors>
-
-                <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
         </renderTarget>
     </renderTargets>
 
@@ -89,11 +100,7 @@
                             context="CURRENT"
                             id="3"
                             component="UNIT" />
-                    <valueof uniform="depth"
-                            type="TEXTURE_BINDING"
-                            context="CURRENT"
-                            id="4"
-                            component="UNIT" />
+                    
                     <valueof uniform="threshold"
                             type="RENDERER"
                             context="CURRENT"
@@ -107,10 +114,39 @@
                             context="CURRENT"
                             component="lightCoef" />
                     <valueof uniform="lightColor"
-                            type="LIGHT"
-                            context="sun"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="lightColor" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="mimikyu" UNIT="0" />
+                <texture name="pos" UNIT="1" />
+                <texture name="normal" UNIT="2" />
+                <texture name="texCoord" UNIT="3" />
+                <!-- <texture name="depthBuffer" UNIT="4" /> -->
+            </textures>
+        </material>
+        
+        <material name="edgeDeferred">
+            <shader name="edgeDeferred">
+                <values> 
+                    <valueof uniform="depth"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
                             id="0"
-                            component="COLOR" />
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="baseImg"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
 
                     <valueof uniform="uDepthThresh"
                             type="RENDERER"
@@ -141,16 +177,13 @@
                             type="CAMERA"
                             context="mainCam"
                             component="FAR" />
-                    
                 </values>
             </shader>
 
             <textures>
-                <texture name="mimikyu" UNIT="0" />
-                <texture name="pos" UNIT="1" />
-                <texture name="normal" UNIT="2" />
-                <texture name="texCoord" UNIT="3" />
-                <texture name="depthBuffer" UNIT="4" />
+                <texture name="depthBuffer" UNIT="0" />
+                <texture name="normal" UNIT="1" />
+                <texture name="base_img_out" UNIT="2" />
             </textures>
         </material>
     </materials>
