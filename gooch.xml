@@ -1,0 +1,131 @@
+<project name="proj" width="1920" height="1080">
+    <assets>
+        <attributes>
+            <attribute name="lightColor" type="RENDERER" data="VEC4" r="1.0" g="0.7" b="0.3" a="1.0" />
+            <attribute name="col1" type="RENDERER" data="VEC4" r="0.1" g="0.3" b="1.0" a="1.0" />
+            <attribute name="col2" type="RENDERER" data="VEC4" r="1.0" g="0.5" b="0.1" a="1.0" />
+
+            <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
+            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
+            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="1" g="0.0" b="1" a="0.0" />
+        </attributes>
+
+        <scenes>
+            <scene name="mimikyu">
+                <file name="models/mimikyu.obj" />
+            </scene>
+            <!-- <scene name="sphere">
+                <file name="models/sphere.obj" />
+            </scene> -->
+        </scenes>
+
+        <viewports>
+            <viewport name="mainViewport">
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="mainCam">
+                <viewport name="mainViewport" />
+                <POSITION x="5" y="0" z="0" />
+                <VIEW x="-1" y="0" z="0" />
+                <UP x="0" y="1" z="0" />
+            </camera>
+        </cameras>
+
+        <lights>
+            <light name="sun">
+                <DIRECTION x="-1" y="-1" z="-1" />
+            </light>
+        </lights>
+
+        <materialLibs>
+            <materialLib filename="gooch.mlib" />
+        </materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="main" class="default">
+            <pass name="mainPass" class="default">
+                <scenes>
+                    <scene name="mimikyu" />
+                </scenes>
+
+                <camera name="mainCam" />
+                <viewport name="mainViewport" />
+
+                <renderTarget name="gbuffer" fromLibrary="matLib" />
+
+                <lights>
+                    <light name="sun">
+                        <COLOR r="1.0" g="0.7" b="0.3" a="1.0" />
+                    </light>
+                </lights>
+
+                <materialMaps>
+                    <map fromMaterial="*" 
+                        toLibrary="matLib"
+                        toMaterial="gbuffer" />
+                </materialMaps>
+            </pass>
+
+            <pass name="gooch" class="quad">
+                <!-- <COLOR_CLEAR value="false" /> -->
+                <material name="gooch" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="imageTex" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="edgeDeferred" class="quad">
+                <COLOR_CLEAR value="false" />
+                <material name="edgeDeferred" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+            </pass>
+        </pipeline>
+    </pipelines>
+
+    <interface>
+        <window label="settings">
+            <var label="Light Color"
+                type="RENDERER"
+                context="CURRENT"
+                component="lightColor"
+                mode="COLOR" />
+            <var label="Color 1"
+                type="RENDERER"
+                context="CURRENT"
+                component="col1"
+                mode="COLOR" />
+            <var label="Color 2"
+                type="RENDERER"
+                context="CURRENT"
+                component="col2"
+                mode="COLOR" />
+
+            <var label="Depth Edge threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="depthThreshold"
+                def="min=0 max=1" />
+            <var label="Normal Edge threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="normalThreshold"
+                def="min=0 max=1" />
+            <var label="Edge Opacity"
+                type="RENDERER"
+                context="CURRENT"
+                component="edgeOpacity"
+                def="min=0 max=1" />
+            <var label="Edge Color"
+                type="RENDERER"
+                context="CURRENT"
+                component="edgeColor"
+                mode="COLOR" />
+        </window>
+    </interface>
+</project>

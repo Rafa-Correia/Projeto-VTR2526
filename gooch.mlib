@@ -1,0 +1,185 @@
+<materialLib name="matLib">
+    <textures>
+        <texture name="wood" filename="textures/wood.jpg" />
+        <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
+    </textures>
+
+    <shaders>
+        <shader name="gbuffer"
+                vs="shaders/gbuffer.vert"
+                ps="shaders/gbuffer.frag" />
+        <shader name="gooch"
+                vs="shaders/gooch.vert"
+                ps="shaders/gooch.frag" />
+        <shader name="edgeDeferred"
+                vs="shaders/edgeDeferred.vert"
+                ps="shaders/edgeDeferred.frag" />
+    </shaders>
+
+    <renderTargets>
+        <renderTarget name="gbuffer" >
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="pos" internalFormat="RGBA32F" />
+                <color name="normal" internalFormat="RGBA" />
+                <color name="texCoord" internalFormat="RG32F" /> 
+            </colors>
+
+            <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
+        </renderTarget>
+
+        <renderTarget name="imageTex">
+                <SIZE width="1920" height="1080" />
+                <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+                <colors>
+                    <color name="base_img_out" internalFormat="RGBA" />
+                </colors>
+        </renderTarget>
+    </renderTargets>
+
+    <materials>
+        <material name="gbuffer">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="gooch">
+            <shader name="gooch" >
+                <values>
+
+                    <!-- uniforms -->
+                    <valueof uniform="V"
+		                    type="CAMERA" context="CURRENT"
+			                component="VIEW_MATRIX" />
+
+                    <valueof uniform="lDir"
+                            type="LIGHT"
+                            context="sun"
+                            id="0"
+                            component="DIRECTION" />
+
+
+                    <!-- textures -->
+                    <valueof uniform="albedo"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                    <valueof uniform="pos"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
+                    <valueof uniform="texCoord"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="3"
+                            component="UNIT" />
+                    
+
+                    <!-- parameters -->
+                    <valueof uniform="lightColor"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="lightColor" />
+                    <valueof uniform="col1"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="col1" />
+                    <valueof uniform="col2"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="col2" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="mimikyu" UNIT="0" />
+                <texture name="pos" UNIT="1" />
+                <texture name="normal" UNIT="2" />
+                <texture name="texCoord" UNIT="3" />
+                <!-- <texture name="depthBuffer" UNIT="4" /> -->
+            </textures>
+        </material>
+        
+        <material name="edgeDeferred">
+            <shader name="edgeDeferred">
+                <values> 
+                    <!-- textures -->
+                    <valueof uniform="depth"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="baseImg"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
+
+                    <!-- parameters! -->
+                    <valueof uniform="uDepthThresh"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="depthThreshold" />
+                    <valueof uniform="uNormalThresh"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="normalThreshold" />
+                    <valueof uniform="uEdgeOpacity"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="edgeOpacity" />
+                    <valueof uniform="edgeColor"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="edgeColor" />
+
+                    <valueof uniform="uResolution"
+                            type="VIEWPORT"
+                            context="mainViewport"
+                            component="SIZE" />
+                    <valueof uniform="uNear"
+                            type="CAMERA"
+                            context="mainCam"
+                            component="NEAR" />
+                    <valueof uniform="uFar"
+                            type="CAMERA"
+                            context="mainCam"
+                            component="FAR" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="depthBuffer" UNIT="0" />
+                <texture name="normal" UNIT="1" />
+                <texture name="base_img_out" UNIT="2" />
+            </textures>
+        </material>
+    </materials>
+</materialLib>
