@@ -101,8 +101,12 @@ vec3 decodeNormal(vec4 enc)
 
 void main()
 {
+    vec4 aPos = texture(uPosTex, vUV);
+    if(aPos.w == 0)
+        discard;
+    
     // --- ler G-buffer ---
-    vec3 posVS = texture(uPosTex, vUV).xyz;
+    vec3 posVS = aPos.xyz;
     vec3 Nvs   = decodeNormal(texture(uNormalTex, vUV));
     vec2 uvObj = texture(uTexCoordTex, vUV).xy;
 

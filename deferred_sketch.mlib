@@ -90,7 +90,7 @@
                         <!-- Light (VIEW-SPACE) -->
                         <valueof uniform="lPos"
                                 type="LIGHT"
-                                context="CURRENT"
+                                context="simple_point"
                                 id="0"
                                 component="POSITION" />
 
@@ -128,7 +128,7 @@
                                 component="SIZE" />
 
                         <valueof uniform="V"
-                             type="RENDERER"
+                             type="CAMERA"
                              context="CURRENT"
                              component="VIEW_MATRIX" />
 
