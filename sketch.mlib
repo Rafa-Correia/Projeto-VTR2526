@@ -186,9 +186,11 @@
             </shader>
 
             <textures>
-                <texture name="mimikyu" UNIT="0" />
+                <texture name="Cake" UNIT="0" />
             </textures>
         </material>
+
+
 
     </materials>
 </materialLib>

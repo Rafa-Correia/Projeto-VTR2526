@@ -1,0 +1,151 @@
+<materialLib name="matLib">
+
+    <textures>
+        <texture name="Cake" filename="textures/cake_basecolor.png" mipmap="true" />
+    </textures>
+
+
+    <shaders>
+
+        <!-- GBUFFER -->
+        <shader name="gbufferShader"
+                vs="shaders/gbuffer2.vert"
+                ps="shaders/gbuffer2.frag" />
+
+        <!-- DEFERRED SKETCH + EDGES -->
+        <shader name="deferredSketchShader"
+                vs="shaders/deferred_quad.vert"
+                ps="shaders/deferredSketch.frag" />
+
+    </shaders>
+
+    <renderTargets>
+        <renderTarget name="gbuffer2">
+                <SIZE width="1920" height="1080" />
+                <colors>
+                        <color name="pos"      internalFormat="RGBA32F" />
+                        <color name="normal"   internalFormat="RGBA" />
+                        <color name="texCoord" internalFormat="RG32F" />
+                </colors>
+                <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
+        </renderTarget>
+    </renderTargets>
+
+
+    <materials>
+
+        <material name="gbufferMaterial">
+
+            <shader name="gbufferShader">
+                <values>
+                    <valueof uniform="PVM"
+                             type="RENDERER"
+                             context="CURRENT"
+                             component="PROJECTION_VIEW_MODEL" />
+
+                    <valueof uniform="VM"
+                             type="RENDERER"
+                             context="CURRENT"
+                             component="VIEW_MODEL" />
+
+                    <valueof uniform="N"
+                             type="RENDERER"
+                             context="CURRENT"
+                             component="NORMAL" />
+                </values>
+            </shader>
+
+        </material>
+
+        <material name="deferredSketchMaterial">
+
+            <shader name="deferredSketchShader">
+                <values>
+
+                        <!-- GBUFFER INPUTS -->
+                        <valueof uniform="uPosTex"
+                                type="TEXTURE_BINDING"
+                                context="CURRENT"
+                                id="0"
+                                component="UNIT" />
+
+                        <valueof uniform="uNormalTex"
+                                type="TEXTURE_BINDING"
+                                context="CURRENT"
+                                id="1"
+                                component="UNIT" />
+
+                        <valueof uniform="uTexCoordTex"
+                                type="TEXTURE_BINDING"
+                                context="CURRENT"
+                                id="2"
+                                component="UNIT" />
+
+                        <valueof uniform="uDepthTex"
+                                type="TEXTURE_BINDING"
+                                context="CURRENT"
+                                id="3"
+                                component="UNIT" />
+
+                        <!-- Light (VIEW-SPACE) -->
+                        <valueof uniform="lPos"
+                                type="LIGHT"
+                                context="CURRENT"
+                                id="0"
+                                component="POSITION" />
+
+                        <!-- Paper texture -->
+                        <valueof uniform="tex"
+                                type="TEXTURE_BINDING"
+                                context="CURRENT"
+                                id="4"
+                                component="UNIT" />
+
+                        <!-- Sketch params -->
+                        <valueof uniform="uLineScale"  type="RENDERER" context="CURRENT" component="LINE_SCALE" />
+                        <valueof uniform="uLineWidth"  type="RENDERER" context="CURRENT" component="LINE_WIDTH" />
+                        <valueof uniform="uJitter"     type="RENDERER" context="CURRENT" component="JITTER" />
+                        <valueof uniform="uContrast"   type="RENDERER" context="CURRENT" component="CONTRAST" />
+                        <valueof uniform="uPaperMix"   type="RENDERER" context="CURRENT" component="PAPER_MIX" />
+                        <valueof uniform="uPaperGrain" type="RENDERER" context="CURRENT" component="PAPER_GRAIN" />
+
+                        <valueof uniform="uT1" type="RENDERER" context="CURRENT" component="HATCH_T1" />
+                        <valueof uniform="uT2" type="RENDERER" context="CURRENT" component="HATCH_T2" />
+                        <valueof uniform="uT3" type="RENDERER" context="CURRENT" component="HATCH_T3" />
+                        <valueof uniform="uT4" type="RENDERER" context="CURRENT" component="HATCH_T4" />
+                        <valueof uniform="uTW" type="RENDERER" context="CURRENT" component="HATCH_TW" />
+
+                        <!-- Edge params -->
+                        <valueof uniform="uDepthThresh"  type="RENDERER" context="CURRENT" component="DEPTH_EDGE_THRESH" />
+                        <valueof uniform="uNormalThresh" type="RENDERER" context="CURRENT" component="NORMAL_EDGE_THRESH" />
+                        <valueof uniform="uEdgeOpacity"  type="RENDERER" context="CURRENT" component="EDGE_OPACITY" />
+                        <valueof uniform="uEdgeColor"    type="RENDERER" context="CURRENT" component="EDGE_COLOR" />
+
+                        <!-- Resolution -->
+                        <valueof uniform="uResolution"
+                                type="VIEWPORT"
+                                context="mainViewport"
+                                component="SIZE" />
+
+                        <valueof uniform="V"
+                             type="RENDERER"
+                             context="CURRENT"
+                             component="VIEW_MATRIX" />
+
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="pos"      UNIT="0" />
+                <texture name="normal"   UNIT="1" />
+                <texture name="texCoord" UNIT="2" />
+                <texture name="depthBuffer" UNIT="3" />
+                <texture name="Cake"     UNIT="4" />
+            </textures>
+
+
+        </material>
+
+    </materials>
+
+</materialLib>

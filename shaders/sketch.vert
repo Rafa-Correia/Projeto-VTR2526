@@ -7,7 +7,7 @@ layout(location = 2) in vec2 aUV;
 uniform mat4 PVM;   // PROJECTION_VIEW_MODEL
 uniform mat4 VM;    // VIEW_MODEL
 uniform mat4 M;     // MODEL
-uniform mat3 N;     // NORMAL (normal matrix do VIEW_MODEL)
+uniform mat3 N;     // NORMAL
 
 out VS_OUT {
     vec3 vPosWS;     // para luz em world
@@ -22,7 +22,7 @@ void main()
     vec4 posWS = M * vec4(aPos, 1.0);
     vs_out.vPosWS = posWS.xyz;
 
-    // View-space position (estavel para padrao)
+    // View-space position
     vec4 posVS = VM * vec4(aPos, 1.0);
     vs_out.vPosVS = posVS.xyz;
 
