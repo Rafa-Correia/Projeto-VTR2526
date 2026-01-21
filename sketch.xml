@@ -1,0 +1,151 @@
+<project name="proj" width="1920" height="1080">
+
+    <assets>
+
+        <attributes>
+            <attribute type="RENDERER" name="LINE_SCALE"  data="FLOAT" value="90" />
+            <attribute type="RENDERER" name="LINE_WIDTH"  data="FLOAT" value="0.11" />
+            <attribute type="RENDERER" name="JITTER"      data="FLOAT" value="0.035" />
+            <attribute type="RENDERER" name="CONTRAST"    data="FLOAT" value="1.25" />
+            <attribute type="RENDERER" name="PAPER_MIX"   data="FLOAT" value="0.20" />
+            <attribute type="RENDERER" name="PAPER_GRAIN" data="FLOAT" value="0.10" />
+            <attribute type="RENDERER" name="HATCH_T1"    data="FLOAT" value="0.15" />
+            <attribute type="RENDERER" name="HATCH_T2"    data="FLOAT" value="0.30" />
+            <attribute type="RENDERER" name="HATCH_T3"    data="FLOAT" value="0.45" />
+            <attribute type="RENDERER" name="HATCH_T4"    data="FLOAT" value="0.60" />
+            <attribute type="RENDERER" name="HATCH_TW"    data="FLOAT" value="0.20" />
+        </attributes>
+
+        <scenes>
+            <scene name="mainScene">
+                <file name="models/mimikyu.obj" />
+            </scene>
+            <scene name="sphere">
+                <file name="models/sphere.obj" />
+            </scene>
+        </scenes>
+
+        <viewports>
+            <viewport name="mainViewport">
+				<CLEAR_COLOR r="0.0" g="0.0" b="0.0" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="mainCam">
+                <viewport name="mainViewport" />
+                <POSITION x="0" y="0" z="10" />
+                <VIEW x="0" y="0" z="-1" />
+                <UP x="0" y="1" z="0" />
+            </camera>
+        </cameras>
+
+        <lights>
+            <light name="simple_point">
+                <POSITION x="5" y="5" z="0" />
+            </light>
+        </lights>
+
+        <materialLibs>
+            <materialLib filename="sketch.mlib" />
+        </materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="basic" class="default">
+            <pass name="mainPass">
+                <scenes>
+                    <scene name="mainScene" />
+                </scenes>
+
+                <camera name="mainCam" />
+                <!-- <viewport name="mainViewport" /> -->
+
+                <lights>
+                    <light name="simple_point" />
+                </lights>
+
+                <materialMaps>
+                    <map fromMaterial="*" 
+                        toLibrary="matLib"
+                        toMaterial="sketchMaterial" />
+                </materialMaps>
+            </pass>
+        </pipeline>
+    </pipelines>
+
+    <interface>
+        <window label="Sketch Controls">
+
+            <var label="Line Scale"
+                type="RENDERER"
+                context="CURRENT"
+                component="LINE_SCALE"
+                def="min=10 max=250" />
+
+            <var label="Line Width"
+                type="RENDERER"
+                context="CURRENT"
+                component="LINE_WIDTH"
+                def="min=0.01 max=0.30" />
+
+            <var label="Jitter"
+                type="RENDERER"
+                context="CURRENT"
+                component="JITTER"
+                def="min=0.0 max=0.35" />
+
+            <var label="Contrast"
+                type="RENDERER"
+                context="CURRENT"
+                component="CONTRAST"
+                def="min=0.5 max=10.0" />
+
+            <var label="Paper Mix"
+                type="RENDERER"
+                context="CURRENT"
+                component="PAPER_MIX"
+                def="min=0.0 max=1.0" />
+
+            <var label="Paper Grain"
+                type="RENDERER"
+                context="CURRENT"
+                component="PAPER_GRAIN"
+                def="min=0.0 max=0.30" />
+
+            <var label="Hatch T1"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="HATCH_T1"
+                def="min=0.0 max=1.0" />
+
+            <var label="Hatch T2"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="HATCH_T2"
+                def="min=0.0 max=1.0" />
+
+            <var label="Hatch T3"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="HATCH_T3"
+                def="min=0.0 max=1.0" />
+
+            <var label="Hatch T4"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="HATCH_T4"
+                def="min=0.0 max=1.0" />
+
+            <var label="Hatch Transition Width"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="HATCH_TW"
+                def="min=0.01 max=1.0" />
+
+        </window>
+    </interface>
+
+
+
+</project>
