@@ -17,6 +17,10 @@
                 vs="shaders/deferred_quad.vert"
                 ps="shaders/deferredSketch.frag" />
 
+        <shader name="edgeShader"
+                vs="shaders/edgeDeferred.vert"
+                ps="shaders/edgeDeferred.frag" />
+
     </shaders>
 
     <renderTargets>
@@ -28,6 +32,13 @@
                         <color name="texCoord" internalFormat="RG32F" />
                 </colors>
                 <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
+        </renderTarget>
+
+        <renderTarget name="sketch_buf">
+                <SIZE width="1920" height="1080" />
+                <colors>
+                        <color name="sketch_color" internalFormat="RGBA" />
+                </colors>
         </renderTarget>
     </renderTargets>
 
@@ -54,6 +65,68 @@
                              component="NORMAL" />
                 </values>
             </shader>
+
+        </material>
+
+        <material name="edgeMaterial">
+
+            <shader name="edgeShader">
+                <values> 
+                    <!-- textures -->
+                    <valueof uniform="depth"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="baseImg"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
+
+                    <!-- parameters! -->
+                    <valueof uniform="uDepthThresh"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="depthThreshold" />
+                    <valueof uniform="uNormalThresh"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="normalThreshold" />
+                    <valueof uniform="uEdgeOpacity"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="edgeOpacity" />
+                    <valueof uniform="edgeColor"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="edgeColor" />
+
+                    <valueof uniform="uResolution"
+                            type="VIEWPORT"
+                            context="mainViewport"
+                            component="SIZE" />
+                    <valueof uniform="uNear"
+                            type="CAMERA"
+                            context="mainCam"
+                            component="NEAR" />
+                    <valueof uniform="uFar"
+                            type="CAMERA"
+                            context="mainCam"
+                            component="FAR" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="depthBuffer" UNIT="0" />
+                <texture name="normal" UNIT="1" />
+                <texture name="sketch_color" UNIT="2" />
+            </textures>
 
         </material>
 
@@ -114,18 +187,6 @@
                         <valueof uniform="uT3" type="RENDERER" context="CURRENT" component="HATCH_T3" />
                         <valueof uniform="uT4" type="RENDERER" context="CURRENT" component="HATCH_T4" />
                         <valueof uniform="uTW" type="RENDERER" context="CURRENT" component="HATCH_TW" />
-
-                        <!-- Edge params -->
-                        <valueof uniform="uDepthThresh"  type="RENDERER" context="CURRENT" component="DEPTH_EDGE_THRESH" />
-                        <valueof uniform="uNormalThresh" type="RENDERER" context="CURRENT" component="NORMAL_EDGE_THRESH" />
-                        <valueof uniform="uEdgeOpacity"  type="RENDERER" context="CURRENT" component="EDGE_OPACITY" />
-                        <valueof uniform="uEdgeColor"    type="RENDERER" context="CURRENT" component="EDGE_COLOR" />
-
-                        <!-- Resolution -->
-                        <valueof uniform="uResolution"
-                                type="VIEWPORT"
-                                context="mainViewport"
-                                component="SIZE" />
 
                         <valueof uniform="V"
                              type="CAMERA"
