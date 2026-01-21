@@ -5,20 +5,9 @@
     </textures>
 
     <shaders>
-        <shader name="simpleShader"
-                vs="shaders/test.vert"
-                ps="shaders/test.frag" />
-        <shader name="celShader"
-                vs="shaders/test.vert"
-                ps="shaders/cel.frag" />
-
         <shader name="gbuffer"
                 vs="shaders/gbuffer.vert"
                 ps="shaders/gbuffer.frag" />
-
-        <shader name="celDeferred"
-                vs="shaders/celDeferred.vert"
-                ps="shaders/celDeferred.frag" />
         <shader name="celEdge"
                 vs="shaders/celEdge.vert"
                 ps="shaders/celEdge.frag" />
@@ -72,14 +61,20 @@
         <material name="celDeferred">
             <shader name="celEdge" >
                 <values>
+
+                    <!-- uniforms -->
                     <valueof uniform="V"
-		                    type="CAMERA" CONTEXT="mainCam"
+		                    type="CAMERA" context="CURRENT"
 			                component="VIEW_MATRIX" />
+
                     <valueof uniform="lDir"
                             type="LIGHT"
                             context="sun"
                             id="0"
                             component="DIRECTION" />
+
+
+                    <!-- textures -->
                     <valueof uniform="albedo"
                             type="TEXTURE_BINDING"
                             context="CURRENT"
@@ -101,6 +96,8 @@
                             id="3"
                             component="UNIT" />
                     
+
+                    <!-- values to control cel shading -->
                     <valueof uniform="threshold"
                             type="RENDERER"
                             context="CURRENT"
@@ -132,6 +129,7 @@
         <material name="edgeDeferred">
             <shader name="edgeDeferred">
                 <values> 
+                    <!-- textures -->
                     <valueof uniform="depth"
                             type="TEXTURE_BINDING"
                             context="CURRENT"
@@ -148,6 +146,7 @@
                             id="2"
                             component="UNIT" />
 
+                    <!-- parameters! -->
                     <valueof uniform="uDepthThresh"
                             type="RENDERER"
                             context="CURRENT"

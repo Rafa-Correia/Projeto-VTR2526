@@ -8,8 +8,8 @@ Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 illum 1
-map_Kd D:/1_Mein Refugium/Mimigma/Mimikyu/images/mimikkyu_eye_col.png
-map_d D:/1_Mein Refugium/Mimigma/Mimikyu/images/mimikkyu_eye_col.png
+map_Kd tex
+map_d tex
 
 newmtl Mimikyu
 Ns 6.050509
@@ -19,4 +19,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:/Users/rafae/Downloads/mimigma.png
+map_Kd tex

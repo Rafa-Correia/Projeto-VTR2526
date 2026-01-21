@@ -8,7 +8,7 @@
             <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
             <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
             <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
-            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="0.0" g="0.0" b="0.0" a="0.0" />
+            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="1" g="0.0" b="1" a="0.0" />
         </attributes>
 
         <scenes>

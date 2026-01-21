@@ -54,14 +54,21 @@ void main() {
     float dU = sampleLinDepth(tc + dy);
     float dD = sampleLinDepth(tc - dy);
 
+    float dRU = sampleLinDepth(tc + dx + dy);
+    float dLU = sampleLinDepth(tc - dx + dy);
+    float dRD = sampleLinDepth(tc + dx - dy);
+    float dLD = sampleLinDepth(tc - dx - dy);
+
     vec3 nR = sampleNormal(tc + dx);
     vec3 nL = sampleNormal(tc - dx);
     vec3 nU = sampleNormal(tc + dy);
     vec3 nD = sampleNormal(tc - dy);
 
 
-    float depthDiff = max(max(abs(d - dR), abs(d - dL)),
-                          max(abs(d - dU), abs(d - dD)));
+    float depthDiff = max(max(max(abs(d - dR), abs(d - dL)),
+                              max(abs(d - dU), abs(d - dD))),
+                          max(max(abs(d - dRU), abs(d - dLU)),
+                              max(abs(d - dRD), abs(d - dLD))));
 
     float depthScale = 1.0 / max(d, 1e-3);
     float depthMetric = depthDiff * depthScale;
@@ -75,7 +82,7 @@ void main() {
 
     float edgeMask = clamp(max(depthEdge, normalEdge), 0.0, 1.0);
 
-    vec2 dx2 = 2.0 * dx;
+    /* vec2 dx2 = 2.0 * dx;
     vec2 dy2 = 2.0 * dy;
 
     float dR2 = sampleLinDepth(tc + dx2);
@@ -100,7 +107,7 @@ void main() {
         smoothstep(uNormalThresh, uNormalThresh * 2.0, normalDiff2)
     );
 
-    edgeMask = max(edgeMask, edge2);
+    edgeMask = max(edgeMask, edge2); */
 
     vec3 base = texture(baseImg, tc).rgb;
     vec3 outCol = mix(base, edgeColor.rgb, edgeMask * uEdgeOpacity);

@@ -14,5 +14,5 @@ void main() {
     gl_Position = position;
 
     tc = texCoord0;
-    aLDir = - vec3(V * lDir);
+    aLDir = - normalize(vec3(V * lDir));
 }

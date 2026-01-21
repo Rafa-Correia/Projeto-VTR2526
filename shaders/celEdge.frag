@@ -20,11 +20,11 @@ void main() {
     if(aPos.w == 0)
         discard;
     
-    vec3 aNormal = texture(normal, tc).xyz;
+    vec3 aNormal = texture(normal, tc).xyz * 2 - 1;
     vec2 texCoords = texture(texCoord, tc).xy;
     //float depth_raw = texture(depth, tc).x;
 
-    float luminance = max(0.0, diffuseCoef * dot(aNormal, normalize(aLDir)));
+    float luminance = max(0.0, diffuseCoef * dot(aNormal, aLDir));
     //float ambientLuminance = 0.01;
     
     float is_illuminated = 1.0;
