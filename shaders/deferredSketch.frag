@@ -1,7 +1,7 @@
 #version 460
 
 in vec2 vUV;
-out vec4 FragColor;
+layout (location = 0) out vec4 sketch_color;
 
 // G-buffer textures
 uniform sampler2D uPosTex;      // posVS.xyz
@@ -166,5 +166,5 @@ void main()
 
     col = mix(col, uEdgeColor.rgb, edge); */
 
-    FragColor = vec4(col, 1.0);
+    sketch_color = vec4(col, 1.0);
 }

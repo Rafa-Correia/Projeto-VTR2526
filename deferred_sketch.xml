@@ -16,12 +16,10 @@
             <attribute type="RENDERER" name="HATCH_TW"    data="FLOAT" value="0.20" />
 
             <!-- Edge detection (DEFERRED) -->
-            <attribute type="RENDERER" name="DEPTH_EDGE_THRESH"  data="FLOAT" value="0.02" />
-            <attribute type="RENDERER" name="NORMAL_EDGE_THRESH" data="FLOAT" value="0.25" />
-            <attribute type="RENDERER" name="EDGE_OPACITY"       data="FLOAT" value="1.0" />
-            <attribute type="RENDERER" name="EDGE_COLOR"
-                    data="VEC4" r="0.05" g="0.05" b="0.05" a="1.0" />
-
+            <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
+            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
+            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="1" g="0.0" b="1" a="0.0" />
 
         </attributes>
 
@@ -83,15 +81,27 @@
 
             </pass>
 
-            <pass name="deferredPass" class="quad">
+            <pass name="sketchPass" class="quad">
 
-                <COLOR_CLEAR value="false" />
-                <DEPTH_CLEAR value="false" />
+                <renderTarget name="sketch_buf"
+                            fromLibrary="matLib" />
 
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
 
                 <material name="deferredSketchMaterial"
+                        fromLibrary="matLib" />
+
+            </pass>
+
+            <pass name="edgePass" class="quad">
+
+                <COLOR_CLEAR value="false" />
+
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+
+                <material name="edgeMaterial"
                         fromLibrary="matLib" />
 
             </pass>
@@ -171,32 +181,29 @@
                 context="CURRENT" 
                 component="HATCH_TW"
                 def="min=0.01 max=1.0" />
+        </window>
 
-            <var label="Depth Edge"
+        <window label="Edge Detection Params">
+            <var label="Depth Edge threshold"
                 type="RENDERER"
                 context="CURRENT"
-                component="DEPTH_EDGE_THRESH"
-                def="min=0 max=0.1" />
-
-            <var label="Normal Edge"
-                type="RENDERER"
-                context="CURRENT"
-                component="NORMAL_EDGE_THRESH"
+                component="depthThreshold"
                 def="min=0 max=1" />
-
+            <var label="Normal Edge threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="normalThreshold"
+                def="min=0 max=1" />
             <var label="Edge Opacity"
                 type="RENDERER"
                 context="CURRENT"
-                component="EDGE_OPACITY"
+                component="edgeOpacity"
                 def="min=0 max=1" />
-
             <var label="Edge Color"
                 type="RENDERER"
                 context="CURRENT"
-                component="EDGE_COLOR"
+                component="edgeColor"
                 mode="COLOR" />
-
-
         </window>
     </interface>
 
