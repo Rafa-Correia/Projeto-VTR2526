@@ -12,11 +12,12 @@
                 vs="shaders/gbuffer2.vert"
                 ps="shaders/gbuffer2.frag" />
 
-        <!-- DEFERRED SKETCH + EDGES -->
+        <!-- DEFERRED SKETCH -->
         <shader name="deferredSketchShader"
                 vs="shaders/deferred_quad.vert"
                 ps="shaders/deferredSketch.frag" />
 
+        <!-- EDGE DETECTION -->
         <shader name="edgeShader"
                 vs="shaders/edgeDeferred.vert"
                 ps="shaders/edgeDeferred.frag" />
@@ -49,20 +50,22 @@
 
             <shader name="gbufferShader">
                 <values>
-                    <valueof uniform="PVM"
-                             type="RENDERER"
-                             context="CURRENT"
-                             component="PROJECTION_VIEW_MODEL" />
 
-                    <valueof uniform="VM"
+                    <valueof uniform="P"
                              type="RENDERER"
                              context="CURRENT"
-                             component="VIEW_MODEL" />
+                             component="PROJECTION" />
 
-                    <valueof uniform="N"
+                    <valueof uniform="V"
                              type="RENDERER"
                              context="CURRENT"
-                             component="NORMAL" />
+                             component="VIEW" />
+
+                    <valueof uniform="M"
+                             type="RENDERER"
+                             context="CURRENT"
+                             component="MODEL" />
+
                 </values>
             </shader>
 
@@ -160,7 +163,7 @@
                                 id="3"
                                 component="UNIT" />
 
-                        <!-- Light (VIEW-SPACE) -->
+                        <!-- Light -->
                         <valueof uniform="lPos"
                                 type="LIGHT"
                                 context="simple_point"
@@ -179,7 +182,6 @@
                         <valueof uniform="uLineWidth"  type="RENDERER" context="CURRENT" component="LINE_WIDTH" />
                         <valueof uniform="uJitter"     type="RENDERER" context="CURRENT" component="JITTER" />
                         <valueof uniform="uContrast"   type="RENDERER" context="CURRENT" component="CONTRAST" />
-                        <valueof uniform="uPaperMix"   type="RENDERER" context="CURRENT" component="PAPER_MIX" />
                         <valueof uniform="uPaperGrain" type="RENDERER" context="CURRENT" component="PAPER_GRAIN" />
 
                         <valueof uniform="uT1" type="RENDERER" context="CURRENT" component="HATCH_T1" />
@@ -187,6 +189,16 @@
                         <valueof uniform="uT3" type="RENDERER" context="CURRENT" component="HATCH_T3" />
                         <valueof uniform="uT4" type="RENDERER" context="CURRENT" component="HATCH_T4" />
                         <valueof uniform="uTW" type="RENDERER" context="CURRENT" component="HATCH_TW" />
+
+                        <valueof uniform="R1" type="RENDERER" context="CURRENT" component="ROTATION_1" />
+                        <valueof uniform="R2" type="RENDERER" context="CURRENT" component="ROTATION_2" />
+                        <valueof uniform="R3" type="RENDERER" context="CURRENT" component="ROTATION_3" />
+                        <valueof uniform="R4" type="RENDERER" context="CURRENT" component="ROTATION_4" />
+
+                        <valueof uniform="uSpacingJitter"
+                                 type="RENDERER"
+                                 context="CURRENT"
+                                 component="SPACING_JITTER" />
 
                         <valueof uniform="V"
                              type="CAMERA"
