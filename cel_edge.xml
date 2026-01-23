@@ -5,6 +5,7 @@
             <attribute name="diffuseCoef" type="RENDERER" data="FLOAT" value="1" />
             <attribute name="lightCoef" type="RENDERER" data="FLOAT" value="0.5" />
             <attribute name="lightColor" type="RENDERER" data="VEC4" r="1.0" g="0.7" b="0.3" a="1.0" />
+
             <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
             <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
             <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
@@ -22,7 +23,7 @@
 
         <viewports>
             <viewport name="mainViewport">
-				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" /> ndf
             </viewport>
         </viewports>
 
@@ -89,7 +90,7 @@
     </pipelines>
 
     <interface>
-        <window label="settings">
+        <window label="Cel Shader Params">
             <var label="Cel Threshold"
                 type="RENDERER"
                 context="CURRENT"
@@ -110,7 +111,9 @@
                 context="CURRENT"
                 component="lightColor"
                 mode="COLOR" />
+        </window>
 
+        <window label="Edge Detection Params">
             <var label="Depth Edge threshold"
                 type="RENDERER"
                 context="CURRENT"
