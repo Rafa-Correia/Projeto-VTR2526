@@ -4,18 +4,20 @@ in vec4 position;
 in vec3 normal;
 in vec2 texCoord0;
 
-uniform mat4 PVM;
-uniform mat4 VM; 
-uniform mat3 N;    
+uniform mat4 P;
+uniform mat4 V;
+uniform mat4 M;
 
-out vec4 posVS;
-out vec3 normalVS;
+out vec4 posWS;
+out vec3 normalWS;
 out vec2 uv;
 
 void main()
 {
-    gl_Position = PVM * position;
-    posVS = VM * position;
-    normalVS = normalize(N * normal);
-    uv = texCoord0;
+    vec4 wpos = M * position; 
+    gl_Position = P * V * wpos;
+
+    posWS    = wpos;
+    normalWS = normalize(transpose(inverse(mat3(M))) * normal);
+    uv       = texCoord0;
 }

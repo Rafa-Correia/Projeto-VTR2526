@@ -3,23 +3,30 @@
     <assets>
 
         <attributes>
-            <attribute type="RENDERER" name="LINE_SCALE"  data="FLOAT" value="10" />
-            <attribute type="RENDERER" name="LINE_WIDTH"  data="FLOAT" value="0.11" />
-            <attribute type="RENDERER" name="JITTER"      data="FLOAT" value="0.035" />
-            <attribute type="RENDERER" name="CONTRAST"    data="FLOAT" value="1.25" />
-            <attribute type="RENDERER" name="PAPER_MIX"   data="FLOAT" value="0.20" />
-            <attribute type="RENDERER" name="PAPER_GRAIN" data="FLOAT" value="0.10" />
-            <attribute type="RENDERER" name="HATCH_T1"    data="FLOAT" value="0.15" />
-            <attribute type="RENDERER" name="HATCH_T2"    data="FLOAT" value="0.30" />
-            <attribute type="RENDERER" name="HATCH_T3"    data="FLOAT" value="0.45" />
-            <attribute type="RENDERER" name="HATCH_T4"    data="FLOAT" value="0.60" />
-            <attribute type="RENDERER" name="HATCH_TW"    data="FLOAT" value="0.20" />
+            <attribute type="RENDERER" name="LINE_SCALE"  data="FLOAT" value="6" />
+            <attribute type="RENDERER" name="LINE_WIDTH"  data="FLOAT" value="0.15" />
+            <attribute type="RENDERER" name="JITTER"      data="FLOAT" value="0.10" />
+            <attribute type="RENDERER" name="CONTRAST"    data="FLOAT" value="1.50" />
+            <attribute type="RENDERER" name="PAPER_GRAIN" data="FLOAT" value="0.03" />
 
-            <!-- Edge detection (DEFERRED) -->
-            <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
-            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute type="RENDERER" name="HATCH_T1"    data="FLOAT" value="0.1" />
+            <attribute type="RENDERER" name="HATCH_T2"    data="FLOAT" value="0.3" />
+            <attribute type="RENDERER" name="HATCH_T3"    data="FLOAT" value="0.5" />
+            <attribute type="RENDERER" name="HATCH_T4"    data="FLOAT" value="0.7" />
+            <attribute type="RENDERER" name="HATCH_TW"    data="FLOAT" value="0.30" />
+
+            <attribute type="RENDERER" name="ROTATION_1"  data="FLOAT" value="0" />
+            <attribute type="RENDERER" name="ROTATION_2"  data="FLOAT" value="90" />
+            <attribute type="RENDERER" name="ROTATION_3"  data="FLOAT" value="45" />
+            <attribute type="RENDERER" name="ROTATION_4"  data="FLOAT" value="135" />
+
+            <attribute type="RENDERER" name="SPACING_JITTER"  data="FLOAT" value="0.15" />
+
+            <!-- Edge detection -->
+            <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.15" />
+            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.05" />
             <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
-            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="1" g="0.0" b="1" a="0.0" />
+            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="0" g="0" b="0" a="0.0" />
 
         </attributes>
 
@@ -41,15 +48,15 @@
         <cameras>
             <camera name="mainCam">
                 <viewport name="mainViewport" />
-                <POSITION x="0" y="0" z="10" />
-                <VIEW x="0" y="0" z="-1" />
+                <POSITION x="50" y="50" z="30" />
+                <LOOK_AT_POINT x="0" y="0" z="0" />
                 <UP x="0" y="1" z="0" />
             </camera>
         </cameras>
 
         <lights>
             <light name="simple_point">
-                <POSITION x="50" y="50" z="20" />
+                <POSITION x="50" y="50" z="30" />
             </light>
         </lights>
 
@@ -106,12 +113,8 @@
 
             </pass>
 
-
         </pipeline>
     </pipelines>
-
-
-
 
     <interface>
         <window label="Sketch Controls">
@@ -120,7 +123,7 @@
                 type="RENDERER"
                 context="CURRENT"
                 component="LINE_SCALE"
-                def="min=1 max=100" />
+                def="min=1 max=200" />
 
             <var label="Line Width"
                 type="RENDERER"
@@ -132,19 +135,13 @@
                 type="RENDERER"
                 context="CURRENT"
                 component="JITTER"
-                def="min=0.0 max=0.35" />
+                def="min=0.0 max=1" />
 
             <var label="Contrast"
                 type="RENDERER"
                 context="CURRENT"
                 component="CONTRAST"
-                def="min=0.5 max=5.0" />
-
-            <var label="Paper Mix"
-                type="RENDERER"
-                context="CURRENT"
-                component="PAPER_MIX"
-                def="min=0.0 max=1.0" />
+                def="min=0.4 max=3.0" />
 
             <var label="Paper Grain"
                 type="RENDERER"
@@ -181,32 +178,66 @@
                 context="CURRENT" 
                 component="HATCH_TW"
                 def="min=0.01 max=1.0" />
+
+            <var label="Rotation 1"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="ROTATION_1"
+                def="min=0.0 max=180.0" />
+
+            <var label="Rotation 2"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="ROTATION_2"
+                def="min=0.0 max=180.0" />
+
+            <var label="Rotation 3"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="ROTATION_3"
+                def="min=0.0 max=180.0" />
+
+            <var label="Rotation 4"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="ROTATION_4"
+                def="min=0.0 max=180.0" />
+
+            <var label="Spacing Jitter"
+                type="RENDERER" 
+                context="CURRENT" 
+                component="SPACING_JITTER"
+                def="min=0.0 max=1" />
+
         </window>
 
         <window label="Edge Detection Params">
+
             <var label="Depth Edge threshold"
                 type="RENDERER"
                 context="CURRENT"
                 component="depthThreshold"
                 def="min=0 max=1" />
+
             <var label="Normal Edge threshold"
                 type="RENDERER"
                 context="CURRENT"
                 component="normalThreshold"
                 def="min=0 max=1" />
+
             <var label="Edge Opacity"
                 type="RENDERER"
                 context="CURRENT"
                 component="edgeOpacity"
                 def="min=0 max=1" />
+
             <var label="Edge Color"
                 type="RENDERER"
                 context="CURRENT"
                 component="edgeColor"
                 mode="COLOR" />
+
         </window>
     </interface>
-
-
 
 </project>
