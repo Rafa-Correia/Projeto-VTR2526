@@ -1,7 +1,8 @@
 <materialLib name="matLib">
     <textures>
-        <texture name="wood" filename="textures/wood.jpg" />
+        <!-- <texture name="wood" filename="textures/wood.jpg" /> -->
         <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
+        <texture name="edgeTex" filename="textures/paper.jpg" />
     </textures>
 
     <shaders>
@@ -145,6 +146,12 @@
                             context="CURRENT"
                             id="2"
                             component="UNIT" />
+                    <valueof uniform="edgeTex"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="3"
+                            component="UNIT" />
+                
 
                     <!-- parameters! -->
                     <valueof uniform="uDepthThresh"
@@ -183,6 +190,7 @@
                 <texture name="depthBuffer" UNIT="0" />
                 <texture name="normal" UNIT="1" />
                 <texture name="base_img_out" UNIT="2" />
+                <texture name="edgeTex" UNIT="3" />
             </textures>
         </material>
     </materials>

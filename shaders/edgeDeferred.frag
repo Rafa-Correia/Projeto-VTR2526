@@ -3,6 +3,7 @@
 uniform sampler2D depth;
 uniform sampler2D normal;
 uniform sampler2D baseImg;
+uniform sampler2D edgeTex;
 
 uniform float uDepthThresh = 0.8;
 uniform float uNormalThresh = 0.2;
@@ -110,7 +111,10 @@ void main() {
     edgeMask = max(edgeMask, edge2); */
 
     vec3 base = texture(baseImg, tc).rgb;
-    vec3 outCol = mix(base, edgeColor.rgb, edgeMask * uEdgeOpacity);
+    vec3 eCol = edgeColor.rgb;
+    float edgeLuminance = texture(edgeTex, tc).r;
+
+    vec3 outCol = mix(base, eCol * edgeLuminance, edgeMask * uEdgeOpacity);
 
     aCol = vec4(outCol, 1.0);
 }

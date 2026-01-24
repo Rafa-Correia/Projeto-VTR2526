@@ -1,0 +1,254 @@
+<materialLib name="matLib">
+    <textures>
+        <!-- <texture name="wood" filename="textures/wood.jpg" /> -->
+        <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
+        <texture name="edgeTex" filename="textures/paper.jpg" mipmap="true" />
+        <texture name="cake" filename="textures/cake_basecolor.png" mipmap="true" />
+    </textures>
+
+    <shaders>
+        <shader name="gbuffer"
+                vs="shaders/gbuffer.vert"
+                ps="shaders/gbuffer.frag" />
+        <shader name="blinnPhong"
+                vs="shaders/blinnPhong.vert"
+                ps="shaders/blinnPhong.frag" />
+        <shader name="edgeDeferred"
+                vs="shaders/edgeDeferred.vert"
+                ps="shaders/edgeDeferred.frag" />
+        <shader name="kuwahara"
+                vs="shaders/simple_quad.vert"
+                ps="shaders/kuwahara.frag" />
+    </shaders>
+
+    <renderTargets>
+        <renderTarget name="gbuffer" >
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="pos" internalFormat="RGBA32F" />
+                <color name="normal" internalFormat="RGBA" />
+                <color name="texCoord" internalFormat="RG32F" /> 
+            </colors>
+
+            <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
+        </renderTarget>
+
+        <renderTarget name="createTensor">
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="outTensor" internalFormat="RGBA" />
+            </colors>
+        </renderTarget>
+
+        <renderTarget name="blurImageHorizontal">
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="blurImageX" internalFormat="RGBA" />
+            </colors>
+        </renderTarget>
+
+        <renderTarget name="blurImageVertical">
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="blurImageY" internalFormat="RGBA" />
+            </colors>
+        </renderTarget>
+
+        <renderTarget name="filtered_img">
+            <SIZE width="1920" height="1080" />
+            <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+            <colors>
+                <color name="filtered_img_out" internalFormat="RGBA" />
+            </colors>
+        </renderTarget>
+
+        <renderTarget name="imageTex">
+                <SIZE width="1920" height="1080" />
+                <CLEAR_VALUES r="0.0" g="0.0" b="0.0" a="0.0" />
+                <colors>
+                    <color name="base_img_out" internalFormat="RGBA" />
+                </colors>
+        </renderTarget>
+    </renderTargets>
+
+    <materials>
+        <material name="gbuffer">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="kuwahara">
+            <shader name="kuwahara">
+                <values>
+                    <valueof uniform="inCol"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+
+                    <valueof uniform="kernel_size"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="kernel_size" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="base_img_out" UNIT="0" />
+            </textures>
+        </material>
+
+        <material name="blinnPhong">
+            <shader name="blinnPhong" >
+                <values>
+
+                    <!-- uniforms -->
+                    <valueof uniform="V"
+		                    type="CAMERA" context="CURRENT"
+			                component="VIEW_MATRIX" />
+
+                    <valueof uniform="lDir"
+                            type="LIGHT"
+                            context="sun"
+                            id="0"
+                            component="DIRECTION" />
+
+
+                    <!-- textures -->
+                    <valueof uniform="albedo"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                    <valueof uniform="pos"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
+                    <valueof uniform="texCoord"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="3"
+                            component="UNIT" />
+                    
+
+                    <!-- values to control cel shading -->
+                    <valueof uniform="threshold"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="threshold" />
+                    <valueof uniform="diffuseCoef"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="diffuseCoef" />
+                    <valueof uniform="lightCoef"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="lightCoef" />
+                    <valueof uniform="lightColor"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="lightColor" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="mimikyu" UNIT="0" />
+                <texture name="pos" UNIT="1" />
+                <texture name="normal" UNIT="2" />
+                <texture name="texCoord" UNIT="3" />
+                <!-- <texture name="depthBuffer" UNIT="4" /> -->
+            </textures>
+        </material>
+        
+        <material name="edgeDeferred">
+            <shader name="edgeDeferred">
+                <values> 
+                    <!-- textures -->
+                    <valueof uniform="depth"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="0"
+                            component="UNIT" />
+                    <valueof uniform="normal"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="1"
+                            component="UNIT" />
+                    <valueof uniform="baseImg"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="2"
+                            component="UNIT" />
+                    <valueof uniform="edgeTex"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="3"
+                            component="UNIT" />
+                
+
+                    <!-- parameters! -->
+                    <valueof uniform="uDepthThresh"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="depthThreshold" />
+                    <valueof uniform="uNormalThresh"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="normalThreshold" />
+                    <valueof uniform="uEdgeOpacity"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="edgeOpacity" />
+                    <valueof uniform="edgeColor"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="edgeColor" />
+
+                    <valueof uniform="uResolution"
+                            type="VIEWPORT"
+                            context="mainViewport"
+                            component="SIZE" />
+                    <valueof uniform="uNear"
+                            type="CAMERA"
+                            context="mainCam"
+                            component="NEAR" />
+                    <valueof uniform="uFar"
+                            type="CAMERA"
+                            context="mainCam"
+                            component="FAR" />
+                </values>
+            </shader>
+
+            <textures>
+                <texture name="depthBuffer" UNIT="0" />
+                <texture name="normal" UNIT="1" />
+                <texture name="filtered_img_out" UNIT="2" />
+                <texture name="edgeTex" UNIT="3" />
+            </textures>
+        </material>
+    </materials>
+</materialLib>

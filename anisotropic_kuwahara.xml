@@ -1,0 +1,248 @@
+<project name="proj" width="1920" height="1080">
+    <assets>
+        <attributes>
+            <attribute name="threshold" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute name="diffuseCoef" type="RENDERER" data="FLOAT" value="1" />
+            <attribute name="lightCoef" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute name="lightColor" type="RENDERER" data="VEC4" r="1.0" g="0.7" b="0.3" a="1.0" />
+
+            <attribute name="depthThreshold" type="RENDERER" data="FLOAT" value="0.1" />
+            <attribute name="normalThreshold" type="RENDERER" data="FLOAT" value="0.5" />
+            <attribute name="edgeOpacity" type="RENDERER" data="FLOAT" value="1" />
+            <attribute name="edgeColor" type="RENDERER" data="VEC4" r="1.0" g="0.0" b="1.0" a="1.0" />
+
+            <attribute name="gaussian_sigma" type="RENDERER" data="FLOAT" value="4.0" />
+            <attribute name="gaussian_radius" type="RENDERER" data="INT" value="2" />
+
+
+            <attribute name="kuwahara_radius" type="RENDERER" data="INT" value ="4" />
+            <attribute name="kuwahara_radSigma" type="RENDERER" data="FLOAT" value="0.55" />
+            <attribute name="kuwahara_secSharp" type="RENDERER" data="FLOAT" value="6.0" />
+            <attribute name="kuwahara_anisotropyStrength" type="RENDERER" data="FLOAT" value="0.50" />
+            <attribute name="kuwahara_variancePow" type="RENDERER" data="FLOAT" value="4.0" />
+        </attributes>
+
+        <scenes>
+            <scene name="mimikyu">
+                <file name="models/mimikyu.obj" />
+            </scene>
+            <scene name="cake">
+                <file name="models/Cake.obj" />
+            </scene>
+            <!-- <scene name="sphere">
+                <file name="models/sphere.obj" />
+            </scene> -->
+        </scenes>
+
+        <viewports>
+            <viewport name="mainViewport">
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="mainCam">
+                <viewport name="mainViewport" />
+                <POSITION x="5" y="0" z="0" />
+                <VIEW x="-1" y="0" z="0" />
+                <UP x="0" y="1" z="0" />
+            </camera>
+        </cameras>
+
+        <lights>
+            <light name="sun">
+                <DIRECTION x="-1" y="-1" z="-1" />
+            </light>
+        </lights>
+
+        <materialLibs>
+            <materialLib filename="anisotropic_kuwahara.mlib" />
+        </materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="main" class="default">
+            <pass name="mainPass" class="default">
+                <scenes>
+                    <scene name="mimikyu" />
+                </scenes>
+
+                <camera name="mainCam" />
+                <viewport name="mainViewport" />
+
+                <renderTarget name="gbuffer" fromLibrary="matLib" />
+
+                <lights>
+                    <light name="sun">
+                        <COLOR r="1.0" g="0.7" b="0.3" a="1.0" />
+                    </light>
+                </lights>
+
+                <materialMaps>
+                    <map fromMaterial="*" 
+                        toLibrary="matLib"
+                        toMaterial="gbuffer" />
+                </materialMaps>
+            </pass>
+
+            <pass name="blinnPhong" class="quad">
+                <material name="blinnPhong" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="imageTex" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="tensor" class="quad">
+                <material name="tensor" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="createTensor" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="blurX" class="quad">
+                <material name="blurX" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="blurImageX" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="blurY" class="quad">
+                <material name="blurY" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="blurImageY" fromLibrary="matLib" />
+            </pass>
+            
+            <pass name="anisotropic_kuwahara" class="quad">
+                <material name="anisotropic_kuwahara" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="filtered_img" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="edgeDeferred" class="quad">
+                <material name="edgeDeferred" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+            </pass>
+        </pipeline>
+
+        <!-- <pipeline name="filter_image" class="default">
+            <pass name="tensor" class="quad">
+                <material name="tensor" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="createTensor" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="blurX" class="quad">
+                <material name="blurX" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="blurImageX" fromLibrary="matLib" />
+            </pass>
+
+            <pass name="blurY" class="quad">
+                <material name="blurY" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+                <renderTarget name="blurImageY" fromLibrary="matLib" />
+            </pass>
+            
+            <pass name="anisotropic_kuwahara" class="quad">
+                <material name="anisotropic_kuwahara" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+            </pass>
+        </pipeline> -->
+    </pipelines>
+
+    <interface>
+        <window label="Cel Shader Params">
+            <var label="Cel Threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="threshold"
+                def="min=0 max=1" />
+            <var label="Diffuse Coeficient"
+                type="RENDERER"
+                context="CURRENT"
+                component="diffuseCoef"
+                def="min=0 max=1" />
+            <var label="Light Coeficient"
+                type="RENDERER"
+                context="CURRENT"
+                component="lightCoef"
+                def="min=0 max=1" />
+            <var label="Light Color"
+                type="RENDERER"
+                context="CURRENT"
+                component="lightColor"
+                mode="COLOR" />
+        </window>
+
+        <window label="Edge Detection Params">
+            <var label="Depth Edge threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="depthThreshold"
+                def="min=0 max=1" />
+            <var label="Normal Edge threshold"
+                type="RENDERER"
+                context="CURRENT"
+                component="normalThreshold"
+                def="min=0 max=1" />
+            <var label="Edge Opacity"
+                type="RENDERER"
+                context="CURRENT"
+                component="edgeOpacity"
+                def="min=0 max=1" />
+            <var label="Edge Color"
+                type="RENDERER"
+                context="CURRENT"
+                component="edgeColor"
+                mode="COLOR" />
+        </window>
+
+        <window label="Kuwahara Parameters">
+            <var label="Kernel Size"
+                type="RENDERER"
+                context="CURRENT"
+                component="kuwahara_radius"
+                def="min=1 max=10" />
+            <var label="Radial Falloff"
+                type="RENDERER"
+                context="CURRENT"
+                component="kuwahara_radSigma"
+                def="min=0 max=1.5" />
+            <var label="Section Sharpness"
+                type="RENDERER"
+                context="CURRENT"
+                component="kuwahara_secSharp"
+                def="min=1.0 max=10.0" />
+            <var label="Anisotropy Strength"
+                type="RENDERER"
+                context="CURRENT"
+                component="kuwahara_anisotropyStrength"
+                def="min=0.0 max=1.0" />
+            <var label="Variance Power"
+                type="RENDERER"
+                context="CURRENT"
+                component="kuwahara_variancePow"
+                def="min=0.0 max=5.0" />
+        </window>
+
+        <window label="Gaussian Blur Parameters">
+            <var label="Sigma"
+                type="RENDERER"
+                context="CURRENT"
+                component="gaussian_sigma"
+                def="min=1.0 max=4.0" />
+            <var label="Blur Radius"
+                type="RENDERER"
+                context="CURRENT"
+                component="gaussian_radius"
+                def="min=1 max=10" />
+        </window>
+    </interface>
+</project>
