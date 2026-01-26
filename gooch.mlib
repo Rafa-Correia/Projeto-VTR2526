@@ -12,7 +12,7 @@
                 vs="shaders/gooch.vert"
                 ps="shaders/gooch.frag" />
         <shader name="edgeDeferred"
-                vs="shaders/edgeDeferred.vert"
+                vs="shaders/simple_quad.vert"
                 ps="shaders/edgeDeferred.frag" />
     </shaders>
 

@@ -44,8 +44,8 @@ void main () {
     float Jxy = tensorCol.g;
     float Jyy = tensorCol.b;
 
-    float lambda1, lambda2;
-    vec2 nDir;
+    //float lambda1, lambda2;
+    //vec2 nDir;
 
     float tr = Jxx + Jyy;
     float det = Jxx * Jyy - Jxy * Jxy;
@@ -55,16 +55,9 @@ void main () {
     float l1 = 0.5 * (tr + s);
     float l2 = 0.5 * (tr - s);
 
-    nDir = vec2(0.0);
-
-    // If b is small, fall back to axis-aligned
-    if (abs(Jxy) > 1e-10) {
-        nDir = normalize(vec2(l1 - Jyy, Jxy));
-    } else {
-        nDir = (Jxx >= Jyy) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-    }
-
-    vec2 tDir = vec2(-nDir.y, nDir.x);
+    float angle = 0.5 * atan(2.0 * Jxy, Jxx - Jyy);
+    vec2 nDir = vec2(cos(angle), sin(angle));      // direction of max change
+    vec2 tDir = vec2(-nDir.y, nDir.x);             // along the edge
 
     float anisotropy = (l1 - l2) / (l1 + l2 + 1e-6);
     anisotropy = clamp(anisotropy, 0.0, 1.0);

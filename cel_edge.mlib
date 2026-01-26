@@ -13,7 +13,7 @@
                 vs="shaders/celEdge.vert"
                 ps="shaders/celEdge.frag" />
         <shader name="edgeDeferred"
-                vs="shaders/edgeDeferred.vert"
+                vs="shaders/simple_quad.vert"
                 ps="shaders/edgeDeferred.frag" />
     </shaders>
 

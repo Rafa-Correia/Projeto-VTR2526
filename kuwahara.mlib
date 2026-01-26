@@ -4,6 +4,7 @@
         <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
         <texture name="edgeTex" filename="textures/paper.jpg" mipmap="true" />
         <texture name="cake" filename="textures/cake_basecolor.png" mipmap="true" />
+        <texture name="mountain" filename="textures/image.png" mipmap="true" />
     </textures>
 
     <shaders>
@@ -14,7 +15,7 @@
                 vs="shaders/blinnPhong.vert"
                 ps="shaders/blinnPhong.frag" />
         <shader name="edgeDeferred"
-                vs="shaders/edgeDeferred.vert"
+                vs="shaders/simple_quad.vert"
                 ps="shaders/edgeDeferred.frag" />
         <shader name="kuwahara"
                 vs="shaders/simple_quad.vert"
@@ -112,7 +113,8 @@
             </shader>
 
             <textures>
-                <texture name="base_img_out" UNIT="0" />
+                <!-- <texture name="base_img_out" UNIT="0" /> -->
+                <texture name="mountain" UNIT="0" />
             </textures>
         </material>
 

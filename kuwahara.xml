@@ -53,9 +53,8 @@
     </assets>
 
     <pipelines>
-        <pipeline name="main" class="default">
+        <!-- <pipeline name="main" class="default">
             <pass name="mainPass" class="default">
-                <!-- <COLOR_CLEAR value="false" /> -->
                 <scenes>
                     <scene name="mimikyu" />
                 </scenes>
@@ -79,7 +78,6 @@
             </pass>
 
             <pass name="celDeferred" class="quad">
-                <!-- <COLOR_CLEAR value="false" /> -->
                 <material name="blinnPhong" fromLibrary="matLib" />
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
@@ -87,7 +85,6 @@
             </pass>
             
             <pass name="kuwahara" class="quad">
-                <!-- <COLOR_CLEAR value="false" /> -->
                 <material name="kuwahara" fromLibrary="matLib" />
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
@@ -95,8 +92,15 @@
             </pass>
 
             <pass name="edgeDeferred" class="quad">
-                <!-- <COLOR_CLEAR value="false" /> -->
                 <material name="edgeDeferred" fromLibrary="matLib" />
+                <viewport name="mainViewport" />
+                <camera name="mainCam" />
+            </pass>
+        </pipeline> -->
+
+        <pipeline name="image" class="default">
+            <pass name="filter" class="quad">
+                <material name="kuwahara" fromLibrary="matLib" />
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
             </pass>

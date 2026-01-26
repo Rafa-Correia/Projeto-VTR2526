@@ -1,10 +1,17 @@
 <materialLib name="matLib">
     <textures>
-        <!-- <texture name="wood" filename="textures/wood.jpg" /> -->
+        <texture name="wood" filename="textures/wood.jpg" />
         <texture name="mimikyu" filename="textures/mimikyu.png" mipmap="true" />
         <texture name="edgeTex" filename="textures/paper.jpg" mipmap="true" />
         <texture name="cake" filename="textures/cake_basecolor.png" mipmap="true" />
-        <texture name="image_base" filename="textures/image.png" mipmap="true" />
+        <texture name="mountain" filename="textures/image.png" mipmap="true" />
+        <texture name="bowl" filename="textures/wood.jpg" mipmap="true" />
+        <texture name="banana" filename="textures/banana.png" mipmap="true" />
+        <texture name="apple" filename="textures/apple.jpg" mipmap="true" />
+
+        <texture name="orange" filename="textures/orange.png" mipmap="true" />
+        <texture name="stem" filename="textures/stem.png" mipmap="true" />
+        <texture name="grape" filename="textures/grape.png" mipmap="true" />
     </textures>
 
     <shaders>
@@ -33,7 +40,7 @@
                 ps="shaders/anisotropic_kuwahara.frag" />
                 
         <shader name="edgeDeferred"
-                vs="shaders/edgeDeferred.vert"
+                vs="shaders/simple_quad.vert"
                 ps="shaders/edgeDeferred.frag" />
     </shaders>
 
@@ -45,6 +52,7 @@
                 <color name="pos" internalFormat="RGBA32F" />
                 <color name="normal" internalFormat="RGBA" />
                 <color name="texCoord" internalFormat="RG32F" /> 
+                <color name="tex" internalFormat="R8UI" />
             </colors>
 
             <depth name="depthBuffer" internalFormat="DEPTH_COMPONENT32F" />
@@ -111,6 +119,151 @@
             </shader>
         </material>
 
+
+
+
+
+        <material name="gbufferBowl">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="current_tex"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="tex_bowl" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="gbufferBanana">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="current_tex"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="tex_banana" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="gbufferApple">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="current_tex"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="tex_apple" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="gbufferOrange">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="current_tex"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="tex_orange" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="gbufferStem">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="current_tex"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="tex_stem" />
+                </values>
+            </shader>
+        </material>
+
+        <material name="gbufferGrape">
+            <shader name="gbuffer">
+                <values>
+                    <valueof uniform="PVM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="PROJECTION_VIEW_MODEL" />
+                    <valueof uniform="VM"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="VIEW_MODEL" />
+                    <valueof uniform="N"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="NORMAL" />
+                    <valueof uniform="current_tex"
+                            type="RENDERER"
+                            context="CURRENT"
+                            component="tex_grape" />
+                </values>
+            </shader>
+        </material>
+
+
+
+
         <material name="tensor">
             <shader name="tensor">
                 <values>
@@ -130,7 +283,7 @@
             </shader>
             
             <textures>
-                <texture name="base_img_out" UNIT="0" />
+                <texture name="mountain" UNIT="0" />
             </textures>
         </material>
 
@@ -238,7 +391,7 @@
             </shader>
 
             <textures>
-                <texture name="base_img_out" UNIT="0" />
+                <texture name="mountain" UNIT="0" />
                 <texture name="blurImageY" UNIT="1" />
             </textures>
         </material>
@@ -260,11 +413,45 @@
 
 
                     <!-- textures -->
-                    <valueof uniform="albedo"
+                    <valueof uniform="default_albedo"
                             type="TEXTURE_BINDING"
                             context="CURRENT"
                             id="0"
                             component="UNIT" />
+
+                            
+                    <valueof uniform="bowl"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="5"
+                            component="UNIT" />
+                    <valueof uniform="banana"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="6"
+                            component="UNIT" />
+                    <valueof uniform="apple"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="7"
+                            component="UNIT" />
+                    <valueof uniform="orange"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="8"
+                            component="UNIT" />
+                    <valueof uniform="stem"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="9"
+                            component="UNIT" />
+                    <valueof uniform="grape"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="10"
+                            component="UNIT" />
+                    
+
                     <valueof uniform="pos"
                             type="TEXTURE_BINDING"
                             context="CURRENT"
@@ -279,6 +466,11 @@
                             type="TEXTURE_BINDING"
                             context="CURRENT"
                             id="3"
+                            component="UNIT" />
+                    <valueof uniform="tex"
+                            type="TEXTURE_BINDING"
+                            context="CURRENT"
+                            id="4"
                             component="UNIT" />
                     
 
@@ -307,6 +499,16 @@
                 <texture name="pos" UNIT="1" />
                 <texture name="normal" UNIT="2" />
                 <texture name="texCoord" UNIT="3" />
+                <texture name="tex" UNIT="4" />
+
+                <texture name="bowl" UNIT="5" />
+                <texture name="banana" UNIT="6" />
+                <texture name="apple" UNIT="7" />
+
+                <texture name="orange" UNIT="8" />
+                <texture name="stem" UNIT="9" />
+                <texture name="grape" UNIT="10" />
+
                 <!-- <texture name="depthBuffer" UNIT="4" /> -->
             </textures>
         </material>

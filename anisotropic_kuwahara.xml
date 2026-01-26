@@ -20,6 +20,14 @@
             <attribute name="kuwahara_secSharp" type="RENDERER" data="FLOAT" value="6.0" />
             <attribute name="kuwahara_anisotropyStrength" type="RENDERER" data="FLOAT" value="0.50" />
             <attribute name="kuwahara_variancePow" type="RENDERER" data="FLOAT" value="4.0" />
+
+
+            <attribute name="tex_bowl" type="RENDERER" data="INT" value="1" />
+            <attribute name="tex_banana" type="RENDERER" data="INT" value="2" />
+            <attribute name="tex_apple" type="RENDERER" data="INT" value="3" />
+            <attribute name="tex_orange" type="RENDERER" data="INT" value="4" />
+            <attribute name="tex_stem" type="RENDERER" data="INT" value="5" />
+            <attribute name="tex_grape" type="RENDERER" data="INT" value="6" />
         </attributes>
 
         <scenes>
@@ -28,6 +36,27 @@
             </scene>
             <scene name="cake">
                 <file name="models/Cake.obj" />
+            </scene>
+            <scene name="fruit">
+                <file name="models/fruits.obj" />
+            </scene>
+            <scene name="bowl">
+                <file name="models/bowl.obj" />
+            </scene>
+            <scene name="bananas">
+                <file name="models/bananas.obj" />
+            </scene>
+            <scene name="apples">
+                <file name="models/apples.obj" />
+            </scene>
+            <scene name="oranges">
+                <file name="models/oranges.obj" />
+            </scene>
+            <scene name="stem">
+                <file name="models/grape_stem.obj" />
+            </scene>
+            <scene name="grapes">
+                <file name="models/grapes.obj" />
             </scene>
             <!-- <scene name="sphere">
                 <file name="models/sphere.obj" />
@@ -61,10 +90,15 @@
     </assets>
 
     <pipelines>
-        <pipeline name="main" class="default">
+        <!-- <pipeline name="main" class="default">
             <pass name="mainPass" class="default">
                 <scenes>
-                    <scene name="mimikyu" />
+                    <scene name="bowl" />
+                    <scene name="bananas" />
+                    <scene name="apples" />
+                    <scene name="oranges" />
+                    <scene name="stem" />
+                    <scene name="grapes" />
                 </scenes>
 
                 <camera name="mainCam" />
@@ -79,9 +113,27 @@
                 </lights>
 
                 <materialMaps>
-                    <map fromMaterial="*" 
+                    <map fromMaterial="bowl"
                         toLibrary="matLib"
-                        toMaterial="gbuffer" />
+                        toMaterial="gbufferBowl" />
+                    <map fromMaterial="Material.003"
+                        toLibrary="matLib"
+                        toMaterial="gbufferBanana" />
+                    <map fromMaterial="Material.001"
+                        toLibrary="matLib"
+                        toMaterial="gbufferApple" />
+                    <map fromMaterial="orange_body"
+                        toLibrary="matLib"
+                        toMaterial="gbufferOrange" />
+                    <map fromMaterial="orange_top"
+                        toLibrary="matLib"
+                        toMaterial="gbufferOrange" />
+                    <map fromMaterial="Material.004"
+                        toLibrary="matLib"
+                        toMaterial="gbufferStem" />
+                    <map fromMaterial="grapes"
+                        toLibrary="matLib"
+                        toMaterial="gbufferGrape" />
                 </materialMaps>
             </pass>
 
@@ -125,9 +177,9 @@
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
             </pass>
-        </pipeline>
+        </pipeline> -->
 
-        <!-- <pipeline name="filter_image" class="default">
+        <pipeline name="filter_image" class="default">
             <pass name="tensor" class="quad">
                 <material name="tensor" fromLibrary="matLib" />
                 <viewport name="mainViewport" />
@@ -154,7 +206,7 @@
                 <viewport name="mainViewport" />
                 <camera name="mainCam" />
             </pass>
-        </pipeline> -->
+        </pipeline>
     </pipelines>
 
     <interface>
